@@ -18,12 +18,14 @@ public class GameEngine {
 	private Map map;
 	private int level;
 	private int numOfEatenDotsFood;
-	
-	
-	
+	private int numOfEatenSpecialFood;
+
+
+
 	public GameEngine(int numOfDotsFoods,int numOfEnemies,int numOfSpecialFood,int level){
 
 		numOfEatenDotsFood=0;
+		numOfEatenSpecialFood=0;
 		this.numOfEnemies=numOfEnemies;
 		this.numOfDotsFoods=numOfDotsFoods;
 		this.numOfSpecialFood=numOfSpecialFood;
@@ -88,6 +90,53 @@ public class GameEngine {
 
 
 
+	public void isEatingDotsFood(){
+		Rectangle pacmanBox = pacman.getBoundingBox();
+		for(DotsFood d:dFoods){
+			Rectangle dotBox = d.getBoundingBox();
+			if(pacmanBox.intersects(dotBox))
+				numOfEatenDotsFood++;
+		}
+	}
+	
+	
+	
+	public void isEatingSpecialFood(){
+		Rectangle pacmanBox = pacman.getBoundingBox();
+		for(SpecialFood s:sFoods){
+			Rectangle SpecialFoodBox = s.getBoundingBox();
+			if(pacmanBox.intersects(SpecialFoodBox))
+				numOfEatenSpecialFood++;
+		}
+	}
+	
+	
+	
+	
+	public boolean isKilledByEnemy(){
+		boolean bool=false;
+		Rectangle pacmanBox = pacman.getBoundingBox();
+
+		for(Enemy e:enemies){
+			Rectangle enemyBox = e.getBoundingBox();
+			if(pacmanBox.intersects(enemyBox))
+				return true;
+		}
+
+		return bool;
+	}
+
+	
+	
+	
+	public boolean isLevelOver(){
+		return numOfEatenDotsFood==numOfDotsFoods;
+	}
+
+
+	
+	
+	
 	public Pacman getPacman() {
 		return pacman;
 	}
@@ -98,12 +147,12 @@ public class GameEngine {
 		for(DotsFood d: dFoods){
 			d.drawSprite(g);
 		}
-		
+
 		//SpecialFoods
 		for(Enemy e: enemies){
 			e.drawSprite(g);
 		}
-		
+
 		//enemies
 		for(Enemy e: enemies){
 			e.drawSprite(g);
@@ -112,8 +161,8 @@ public class GameEngine {
 		map.draw(g);
 	}
 
-	
-	
+
+
 	public Vector<Enemy> getEnemies() {
 		return enemies;
 	}
@@ -247,32 +296,5 @@ public class GameEngine {
 
 
 
-	public void isEatingDotsFood(){
-		Rectangle pacmanBox = pacman.getBoundingBox();
-		for(DotsFood d:dFoods){
-			Rectangle dotBox = d.getBoundingBox();
-			if(pacmanBox.intersects(dotBox))
-				numOfEatenDotsFood++;
-		}
-
-
-
-	}
-	public boolean isKilledByEnemy(){
-		boolean bool=false;
-		Rectangle pacmanBox = pacman.getBoundingBox();
-
-		for(Enemy e:enemies){
-			Rectangle enemyBox = e.getBoundingBox();
-			if(pacmanBox.intersects(enemyBox))
-				return true;
-		}
-
-		return bool;
-	}
-
-	public boolean isLevelOver(){
-		return numOfEatenDotsFood==numOfDotsFoods;
-	}
 
 }
