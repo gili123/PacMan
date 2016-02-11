@@ -11,79 +11,41 @@ import javax.imageio.ImageIO;
 public class GameEngine {
 
 	private Pacman pacman;
-	private Vector<Enemy> enemies;
-	private Vector<DotsFood> dFoods;
-	private Vector<SpecialFood> sFoods;
-	private int numOfEnemies,numOfDotsFoods,numOfSpecialFood;
+
 	private Map map;
 	private int level;
 	private int numOfEatenDotsFood;
 	private int numOfEatenSpecialFood;
+	private Vector<Enemy> enemies;
+	private Vector<DotsFood> dFoods;
+	private Vector<SpecialFood> sFoods;
+	private int numOfEnemies,numOfDotsFoods,numOfSpecialFood;
 
 
-
-	public GameEngine(int numOfDotsFoods,int numOfEnemies,int numOfSpecialFood,int level){
+	public GameEngine(int level){
 
 		numOfEatenDotsFood=0;
 		numOfEatenSpecialFood=0;
-		this.numOfEnemies=numOfEnemies;
-		this.numOfDotsFoods=numOfDotsFoods;
-		this.numOfSpecialFood=numOfSpecialFood;
+	
+		
+		
+		
+		
 		this.level=level;
 		switch(level){
 		case 1:
 			this.map=new Level1();
-			Point start = map.getStartPoint();
-			pacman=new Pacman(start.x,start.y);
-			pacman.setGraph(map.getGraph());
 			break;
 		}
-
-
-		//enemies
-		enemies=new Vector<Enemy>(this.numOfEnemies);
-		//getting the image of an enemy
-		//File file1 = new File(new File(".").getAbsolutePath()+ "//enemy.png");
-		File file1 = new File(new File("src").getAbsolutePath()+ "//enemy.png");
-		BufferedImage img1 = null;
-		try {
-			img1 = ImageIO.read(file1);
-			//setting enemies icons
-			for(int i=0;i<this.numOfEnemies;i++){
-				enemies.add(new Enemy(0, 0, img1));
-			}	
-
-		} catch (IOException ex) {
-			System.out.println("error loading files");
-		}	
-
-
-
-
-		//SpecialFoods
-		sFoods=new Vector<SpecialFood>(this.numOfSpecialFood);
-		//getting the image of an enemy
-		File file2 = new File(new File("src").getAbsolutePath()+ "//food.png");
-		//File file2 = new File(new File(".").getAbsolutePath()+ "//food.png");
-		BufferedImage img2 = null;
-		try {
-			img2 = ImageIO.read(file2);
-			//setting enemies icons
-			for(int i=0;i<this.numOfSpecialFood;i++){
-				sFoods.add(new SpecialFood(0, 0, img2));
-			}	
-
-		} catch (IOException ex) {
-			System.out.println("error loading files");
-		}	
-
-
-
-		//dots food
-		dFoods=new Vector<DotsFood>(this.numOfDotsFoods);
-		for(int i=0;i<this.numOfDotsFoods;i++){
-			dFoods.add(new DotsFood(0, 0, img2));
-		}
+		Point start = map.getStartPoint();
+		pacman=new Pacman(start.x,start.y);
+		pacman.setGraph(map.getGraph());
+		enemies=map.getEnemies();
+		dFoods=map.getdFoods();
+		sFoods=map.getsFoods();
+		numOfEnemies=map.getNumOfEnemies();
+		numOfDotsFoods=map.getNumOfDotsFoods();
+		numOfSpecialFood=map.getNumOfSpecialFood();	
 
 	}
 
@@ -143,20 +105,6 @@ public class GameEngine {
 
 
 	public void draw(Graphics g){
-		//dots food
-		for(DotsFood d: dFoods){
-			d.drawSprite(g);
-		}
-
-		//SpecialFoods
-		for(Enemy e: enemies){
-			e.drawSprite(g);
-		}
-
-		//enemies
-		for(Enemy e: enemies){
-			e.drawSprite(g);
-		}	
 		pacman.drawSprite(g);
 		map.draw(g);
 	}

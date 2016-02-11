@@ -15,7 +15,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private Map m;
 	private GameEngine game;
 	public GamePanel() {
-		game=new GameEngine(1, 1, 1, 1);
+		game=new GameEngine(1);
 		m=game.getMap();
 		pacman=game.getPacman();
 		setFocusable(true);
