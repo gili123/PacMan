@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -11,14 +12,17 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private BufferedImage screeen = null;
 	private boolean running;
 	private Pacman pacman;
-	private Food food = new Food(150, 400);
+	private Map m;
 
 	public GamePanel() {
 
 		setFocusable(true);
 		requestFocusInWindow();
 		
-		pacman = new Pacman(30, 100);
+		m = new Level1();
+		Point start = m.getStartPoint();
+		pacman = new Pacman(start.x, start.y);
+		pacman.setGraph(m.getGraph());
 		running = true;
 		
 		addKeyListener(this);
@@ -63,7 +67,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		g = screeen.createGraphics();
 
 		pacman.draw(g);
-		food.draw(g);
+		m.draw(g);
 	}
 
 	private void gameUpdate() {
