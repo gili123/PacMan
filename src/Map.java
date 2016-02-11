@@ -30,7 +30,10 @@ public class Map {
 	}
 	
 	public Map(int numOfDotsFoods,int numOfEnemies,int numOfSpecialFood){
-
+		this.numOfEnemies=numOfEnemies;
+		this.numOfDotsFoods=numOfDotsFoods;
+		this.numOfSpecialFood=numOfSpecialFood;
+		
 		//enemies
 		enemies=new Vector<Enemy>(this.numOfEnemies);
 		//getting the image of an enemy
@@ -259,8 +262,8 @@ public class Map {
 		}
 
 		//enemies
-		for(Enemy e: enemies){
-			e.drawSprite(g);
+		for(SpecialFood s: sFoods){
+			s.drawSprite(g);
 		}	
 		
 		
