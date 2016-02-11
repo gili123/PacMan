@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -7,21 +8,18 @@ import java.util.Vector;
 import javax.swing.Timer;
 
 
-public class Pacman implements ActionListener, Runnable {
+public class Pacman extends Sprite implements ActionListener, Runnable {
 
 	public static final int width = 40, height = 40;
 	private final int mouthAngle = 30;
 	private final int moveSpeed = 5;
 	private Vector<Vertex> graph = new Vector<Vertex>();
 	private Vertex correntVer, nextVer, prevVer;
-	private int x, y;
 	private int mouthState, direction;
 	private Timer timer;
 
 	public Pacman(int x, int y){
-
-		this.x = x;
-		this.y = y;
+		super(x, y, 0, 0, null);
 
 		mouthState = 0;
 		direction = 0;
@@ -44,7 +42,7 @@ public class Pacman implements ActionListener, Runnable {
 			if(correntVer.getDir(0) != -1)
 				direction = 0;
 		}
-		
+
 		else if(direction == 2){
 			Vertex tmp = nextVer;
 			nextVer = prevVer;
@@ -59,7 +57,7 @@ public class Pacman implements ActionListener, Runnable {
 			if(correntVer.getDir(1) != -1)
 				direction = 1;
 		}
-		
+
 		else if(direction == 3){
 			Vertex tmp = nextVer;
 			nextVer = prevVer;
@@ -74,7 +72,7 @@ public class Pacman implements ActionListener, Runnable {
 			if(correntVer.getDir(2) != -1)
 				direction = 2;
 		}
-		
+
 		else if(direction == 0){
 			Vertex tmp = nextVer;
 			nextVer = prevVer;
@@ -89,7 +87,7 @@ public class Pacman implements ActionListener, Runnable {
 			if(correntVer.getDir(3) != -1)
 				direction = 3;
 		}
-		
+
 		else if(direction == 1){
 			Vertex tmp = nextVer;
 			nextVer = prevVer;
@@ -115,7 +113,7 @@ public class Pacman implements ActionListener, Runnable {
 			eAngle = 360 - 2 * mouthAngle;
 		}
 
-		g.fillArc(x, y, width, height, sAngle, eAngle);
+		g.fillArc(locX, locY, width, height, sAngle, eAngle);
 
 		move();
 	}
@@ -123,7 +121,7 @@ public class Pacman implements ActionListener, Runnable {
 	private void move() {
 
 		if(correntVer != null){
-			if(x <= correntVer.getX() || x + Pacman.width >= correntVer.getX() + Vertex.width || y <= correntVer.getY() || y + Pacman.height >= correntVer.getY() + Vertex.height){
+			if(locX<= correntVer.getX() || locX+ Pacman.width >= correntVer.getX() + Vertex.width || locY <= correntVer.getY() || locY + Pacman.height >= correntVer.getY() + Vertex.height){
 				prevVer = correntVer;
 				correntVer = null;
 			}
@@ -133,7 +131,7 @@ public class Pacman implements ActionListener, Runnable {
 			nextVer = prevVer.getNeighbor(direction);
 
 		if(nextVer != null){
-			if(x > nextVer.getX() && x + Pacman.width < nextVer.getX() + Vertex.width && y > nextVer.getY() && y + Pacman.height < nextVer.getY() + Vertex.height){
+			if(locX > nextVer.getX() && locX + Pacman.width < nextVer.getX() + Vertex.width && locY > nextVer.getY() && locY + Pacman.height < nextVer.getY() + Vertex.height){
 				correntVer = nextVer;
 				nextVer = correntVer.getNeighbor(direction);
 			}
@@ -145,13 +143,13 @@ public class Pacman implements ActionListener, Runnable {
 
 			if(correntVer != null){
 				if(correntVer.getDir(0) != -1)
-					x += moveSpeed;
-				else if(x + moveSpeed + Pacman.width < correntVer.getX() + Vertex.width)
-					x += moveSpeed;
+					locX += moveSpeed;
+				else if(locX + moveSpeed + Pacman.width < correntVer.getX() + Vertex.width)
+					locX+= moveSpeed;
 			}
 
 			else
-				x += moveSpeed;
+				locX += moveSpeed;
 
 			break;
 
@@ -159,13 +157,13 @@ public class Pacman implements ActionListener, Runnable {
 
 			if(correntVer != null){
 				if(correntVer.getDir(1) != -1)
-					y -= moveSpeed;
-				else if(y - moveSpeed > correntVer.getY())
-					y -= moveSpeed;
+					locY -= moveSpeed;
+				else if(locY - moveSpeed > correntVer.getY())
+					locY -= moveSpeed;
 			}
 
 			else
-				y -= moveSpeed;
+				locY -= moveSpeed;
 
 			break;
 
@@ -173,13 +171,13 @@ public class Pacman implements ActionListener, Runnable {
 
 			if(correntVer != null){
 				if(correntVer.getDir(2) != -1)
-					x -= moveSpeed;
-				else if(x - moveSpeed > correntVer.getX())
-					x -= moveSpeed;
+					locX -= moveSpeed;
+				else if(locX - moveSpeed > correntVer.getX())
+					locX -= moveSpeed;
 			}
 
 			else
-				x -= moveSpeed;
+				locX -= moveSpeed;
 
 			break;
 
@@ -187,16 +185,22 @@ public class Pacman implements ActionListener, Runnable {
 
 			if(correntVer != null){
 				if(correntVer.getDir(3) != -1)
-					y += moveSpeed;
-				else if(y + moveSpeed + Pacman.height < correntVer.getY() + Vertex.height)
-					y += moveSpeed;
+					locY += moveSpeed;
+				else if(locY + moveSpeed + Pacman.height < correntVer.getY() + Vertex.height)
+					locY += moveSpeed;
 			}
 
 			else
-				y += moveSpeed;
+				locY += moveSpeed;
 
 			break;
 		}
+	}
+	
+	@Override
+	public Rectangle getBoundingBox()
+	{
+		return new Rectangle(getLocX(), getLocY(), width, height);
 	}
 
 	@Override

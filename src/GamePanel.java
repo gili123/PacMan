@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private boolean running;
 	private Pacman pacman;
 	private Map m;
-
+	private GameEngine game;
 	public GamePanel() {
 
 		setFocusable(true);

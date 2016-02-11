@@ -10,14 +10,19 @@ public class GameComponents {
 	private Vector<Enemy> enemies;
 	private Vector<DotsFood> dFoods;
 	private Vector<SpecialFood> sFoods;
-	private int numOfEnemies,numOfFoods,numOfSpecialFood;
-
-
-	public GameComponents(int numOfFoods,int numOfEnemies,int numOfSpecialFood){
+	private int numOfEnemies,numOfDotsFoods,numOfSpecialFood;
+	private Map map;
+	private int level;
+	public GameComponents(int numOfDotsFoods,int numOfEnemies,int numOfSpecialFood,int level){
 		this.numOfEnemies=numOfEnemies;
-		this.numOfFoods=numOfFoods;
+		this.numOfDotsFoods=numOfDotsFoods;
 		this.numOfSpecialFood=numOfSpecialFood;
-
+		this.level=level;
+		switch(level){
+		case 1:
+			this.map=new Level1();
+			break;
+		}
 
 
 		//enemies
@@ -65,6 +70,26 @@ public class GameComponents {
 	}
 
 
+	public Map getMap() {
+		return map;
+	}
+
+
+	public int getLevel() {
+		return level;
+	}
+
+
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+
 	public Pacman getPacman() {
 		return pacman;
 	}
@@ -90,8 +115,8 @@ public class GameComponents {
 	}
 
 
-	public int getNumOfFoods() {
-		return numOfFoods;
+	public int getNumOfDotsFoods() {
+		return numOfDotsFoods;
 	}
 
 
@@ -125,8 +150,8 @@ public class GameComponents {
 	}
 
 
-	public void setNumOfFoods(int numOfFoods) {
-		this.numOfFoods = numOfFoods;
+	public void setNumOfDotsFoods(int numOfDotsFoods) {
+		this.numOfDotsFoods = numOfDotsFoods;
 	}
 
 
