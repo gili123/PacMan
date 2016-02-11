@@ -3,8 +3,8 @@ import javax.swing.JFrame;
 
 public class Main {
 
-	public static final int win_width = 1050;
-	public static final int win_height = 800;
+	public static final int win_width = 976;
+	public static final int win_height = 700;
 	
 	public static void main(String[] args) {
 		

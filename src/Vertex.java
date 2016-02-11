@@ -3,7 +3,7 @@ import java.awt.Point;
 
 public class Vertex {
 
-	public static final int width = 65, height = 65;
+	public static final int width = 40, height = 40;
 	private int x, y, numOfNeighbors;
 	private Vertex[] neighbors;
 	private int[] direction;

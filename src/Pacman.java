@@ -11,7 +11,7 @@ import javax.swing.Timer;
 
 public class Pacman extends Sprite implements ActionListener, Runnable {
 
-	public static final int width = 40, height = 40;
+	public static final int width = 20, height = 20;
 	private final int mouthAngle = 30;
 	private final int moveSpeed = 5;
 	private Vector<Vertex> graph = new Vector<Vertex>();
