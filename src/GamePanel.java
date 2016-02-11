@@ -15,14 +15,12 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private Map m;
 	private GameEngine game;
 	public GamePanel() {
-
+		game=new GameEngine(1, 1, 1, 1);
+		m=game.getMap();
+		pacman=game.getPacman();
 		setFocusable(true);
 		requestFocusInWindow();
-		
-		m = new Level1();
-		Point start = m.getStartPoint();
-		pacman = new Pacman(start.x, start.y);
-		pacman.setGraph(m.getGraph());
+	
 		running = true;
 		
 		addKeyListener(this);
@@ -60,14 +58,11 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	}
 
 	private void gameRender() {
-
 		Graphics g;
-
 		screeen = new BufferedImage(Main.win_width, Main.win_height, BufferedImage.OPAQUE);
 		g = screeen.createGraphics();
-
-		pacman.draw(g);
-		m.draw(g);
+		game.draw(g);
+		
 	}
 
 	private void gameUpdate() {
@@ -78,6 +73,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g); 
+		gameRender();
 	}
 
 	@Override

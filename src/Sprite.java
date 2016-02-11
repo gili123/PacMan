@@ -47,7 +47,17 @@ public class Sprite {
        
     }
     
-    public Rectangle getBoundingBox()
+    public void setLocX(int locX) {
+		this.locX = locX;
+	}
+
+
+	public void setLocY(int locY) {
+		this.locY = locY;
+	}
+
+
+	public Rectangle getBoundingBox()
     {
         return new Rectangle(getLocX(), getLocY(), imageWidth, imageHeight);
     }
@@ -85,6 +95,7 @@ public class Sprite {
     public void drawSprite(Graphics g)
     {
         g.fillRect(locX, locY, imageWidth, imageHeight);
+    	g.drawImage(bImage, locX, locY, null);
     }
 }
 

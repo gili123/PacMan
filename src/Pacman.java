@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -96,8 +97,8 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 		}
 	}
 
-
-	public void draw(Graphics g){
+	@Override
+	public void drawSprite(Graphics g){
 
 		int sAngle = 0, eAngle = 0;
 
@@ -196,7 +197,7 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 			break;
 		}
 	}
-	
+
 	@Override
 	public Rectangle getBoundingBox()
 	{
@@ -209,7 +210,10 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 		mouthState = (mouthState + 1) % 2;
 
 	}
-
+	public void setPacmanStartPoint(Point p){
+		this.locX=p.x;
+		this.locY=p.y;
+	}
 
 	@Override
 	public void run() {
