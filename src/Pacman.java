@@ -40,24 +40,62 @@ public class Pacman implements ActionListener, Runnable {
 
 	public void moveRight(){
 
-		direction = 0;
-
-
+		if(correntVer != null){
+			if(correntVer.getDir(0) != -1)
+				direction = 0;
+		}
+		
+		else if(direction == 2){
+			Vertex tmp = nextVer;
+			nextVer = prevVer;
+			prevVer = tmp;
+			direction = 0;
+		}
 	}
 
 	public void moveUp(){
 
-		direction = 1;
+		if(correntVer != null){
+			if(correntVer.getDir(1) != -1)
+				direction = 1;
+		}
+		
+		else if(direction == 3){
+			Vertex tmp = nextVer;
+			nextVer = prevVer;
+			prevVer = tmp;
+			direction = 1;
+		}
 	}
 
 	public void moveLeft(){
 
-		direction = 2;
+		if(correntVer != null){
+			if(correntVer.getDir(2) != -1)
+				direction = 2;
+		}
+		
+		else if(direction == 0){
+			Vertex tmp = nextVer;
+			nextVer = prevVer;
+			prevVer = tmp;
+			direction = 2;
+		}
 	}
 
 	public void moveDown(){
 
-		direction = 3;
+		if(correntVer != null){
+			if(correntVer.getDir(3) != -1)
+				direction = 3;
+		}
+		
+		else if(direction == 1){
+			Vertex tmp = nextVer;
+			nextVer = prevVer;
+			prevVer = tmp;
+			direction = 3;
+		}
 	}
 
 
@@ -85,9 +123,14 @@ public class Pacman implements ActionListener, Runnable {
 	private void move() {
 
 		if(correntVer != null){
-			if(x <= correntVer.getX() || x + Pacman.width >= correntVer.getX() + Vertex.width || y <= correntVer.getY() || y + Pacman.height >= correntVer.getY() + Vertex.height)
+			if(x <= correntVer.getX() || x + Pacman.width >= correntVer.getX() + Vertex.width || y <= correntVer.getY() || y + Pacman.height >= correntVer.getY() + Vertex.height){
+				prevVer = correntVer;
 				correntVer = null;
+			}
 		}
+
+		if(prevVer != null)
+			nextVer = prevVer.getNeighbor(direction);
 
 		if(nextVer != null){
 			if(x > nextVer.getX() && x + Pacman.width < nextVer.getX() + Vertex.width && y > nextVer.getY() && y + Pacman.height < nextVer.getY() + Vertex.height){
@@ -103,35 +146,57 @@ public class Pacman implements ActionListener, Runnable {
 			if(correntVer != null){
 				if(correntVer.getDir(0) != -1)
 					x += moveSpeed;
+				else if(x + moveSpeed + Pacman.width < correntVer.getX() + Vertex.width)
+					x += moveSpeed;
 			}
-		
+
 			else
 				x += moveSpeed;
-
 
 			break;
 
 		case 1:
 
-			y -= moveSpeed;
+			if(correntVer != null){
+				if(correntVer.getDir(1) != -1)
+					y -= moveSpeed;
+				else if(y - moveSpeed > correntVer.getY())
+					y -= moveSpeed;
+			}
+
+			else
+				y -= moveSpeed;
 
 			break;
 
 		case 2:
 
-			x -= moveSpeed;
+			if(correntVer != null){
+				if(correntVer.getDir(2) != -1)
+					x -= moveSpeed;
+				else if(x - moveSpeed > correntVer.getX())
+					x -= moveSpeed;
+			}
+
+			else
+				x -= moveSpeed;
 
 			break;
 
 		case 3:
 
-			y += moveSpeed;
+			if(correntVer != null){
+				if(correntVer.getDir(3) != -1)
+					y += moveSpeed;
+				else if(y + moveSpeed + Pacman.height < correntVer.getY() + Vertex.height)
+					y += moveSpeed;
+			}
+
+			else
+				y += moveSpeed;
 
 			break;
 		}
-
-
-
 	}
 
 	@Override

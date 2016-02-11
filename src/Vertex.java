@@ -3,8 +3,8 @@ import java.awt.Point;
 
 public class Vertex {
 
-	public static final int width = 80, height = 80;
-	private int x, y;
+	public static final int width = 65, height = 65;
+	private int x, y, numOfNeighbors;
 	private Vertex[] neighbors;
 	private int[] direction;
 
@@ -13,6 +13,7 @@ public class Vertex {
 		this.x = x;
 		this.y = y;
 
+		numOfNeighbors = 0;
 		neighbors = new Vertex[4];
 		direction = new int[4];
 
@@ -26,6 +27,27 @@ public class Vertex {
 
 	public int getY(){
 		return y;
+	}
+	
+	public Vertex[] getNeighbors(){
+		
+		return neighbors;
+	}
+	
+	public int[] getDirections(){
+		
+		/*int[] directions = new int[numOfNeighbors];
+		int j = 0;
+		
+		for(int i = 0; i < direction.length; i++){
+			
+			if(direction[i] != -1){
+				directions[j] = direction[i];
+				j++;
+			}
+		}*/
+
+		return direction;
 	}
 	
 	public Vertex getNeighbor(int dir){
@@ -51,6 +73,7 @@ public class Vertex {
 		if(dir >= 0 && dir < 4){
 			neighbors[dir] = v;
 			direction[dir] = dir;
+			numOfNeighbors++;
 		}
 	}
 
