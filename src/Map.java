@@ -14,49 +14,40 @@ public class Map {
 	protected Vector<Vertex> graph = new Vector<Vertex>();
 	protected Point startPoint;
 	private int[] x_points, y_points;
-	
-	
-	private Vector<Enemy> enemies;
+
+
+	protected Vector<Enemy> enemies;
 	private Vector<DotsFood> dFoods;
 	private Vector<SpecialFood> sFoods;
-	private int numOfEnemies,numOfDotsFoods,numOfSpecialFood;
-	
-	
-	
-	
+	protected int numOfEnemies,numOfDotsFoods,numOfSpecialFood;
+
+
+
+
 
 	public Map(){
-		
+
 	}
-	
+
 	public Map(int numOfDotsFoods,int numOfEnemies,int numOfSpecialFood){
 		this.numOfEnemies=numOfEnemies;
 		this.numOfDotsFoods=numOfDotsFoods;
 		this.numOfSpecialFood=numOfSpecialFood;
-		
+
 		//enemies
-		enemies=new Vector<Enemy>(this.numOfEnemies);
-		//getting the image of an enemy
-		//File file1 = new File(new File(".").getAbsolutePath()+ "//enemy.png");
-		File file1 = new File(new File("src").getAbsolutePath()+ "//enemy.png");
-		BufferedImage img1 = null;
-		try {
-			img1 = ImageIO.read(file1);
-			//setting enemies icons
-			for(int i=0;i<this.numOfEnemies;i++){
-				enemies.add(new Enemy(0, 0, img1));
-			}	
+		enemies = new Vector<Enemy>(this.numOfEnemies);
 
-		} catch (IOException ex) {
-			System.out.println("error loading files");
-		}	
+
+			
 
 
 
 
-		
-		
-		
+
+
+
+
+
 		//SpecialFoods
 		sFoods=new Vector<SpecialFood>(this.numOfSpecialFood);
 		//getting the image of an enemy
@@ -75,10 +66,10 @@ public class Map {
 		}	
 
 
-		
-		
-		
-		
+
+
+
+
 
 		//dots food
 		dFoods=new Vector<DotsFood>(this.numOfDotsFoods);
@@ -86,22 +77,22 @@ public class Map {
 			dFoods.add(new DotsFood(0, 0, img2));
 		}
 
-		
-		
-		
 
-		
+
+
+
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
 	public int getWidth() {
 		return width;
 	}
@@ -182,9 +173,9 @@ public class Map {
 		this.numOfSpecialFood = numOfSpecialFood;
 	}
 
-	
-	
-	
+
+
+
 	public void draw(Graphics g){
 
 		Vertex nei;
@@ -205,13 +196,13 @@ public class Map {
 
 					else if(j == 1)
 						g.drawLine(cur.getX(), cur.getY(), cur.getX() + Vertex.width, cur.getY());
-					
+
 					else if(j == 2)
 						g.drawLine(cur.getX(), cur.getY(), cur.getX(), cur.getY() + Vertex.height);
-					
+
 					else if(j == 3)
 						g.drawLine(cur.getX(), cur.getY() + Vertex.height, cur.getX() + Vertex.width, cur.getY() + Vertex.height);
-						
+
 					break;
 
 				case 0:
@@ -265,13 +256,7 @@ public class Map {
 		for(SpecialFood s: sFoods){
 			s.drawSprite(g);
 		}	
-		
-		
-		/*	for(int i = 0; i < graph.size(); i++){
 
-
-			g.drawOval(graph.get(i).getX(), graph.get(i).getY(), Vertex.width, Vertex.height);
-		}*/
 	}
 
 

@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class DotsFood extends Sprite {
 
-	private final static int width = 15,height = 15;
+	private final static int width = 10, height = 10;
 
 	private Color color;
 

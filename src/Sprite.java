@@ -15,30 +15,21 @@ import java.awt.image.BufferedImage;
  * @author Shay Tavor
  */
 public class Sprite {
+	 
     private static final int SIZE = 20; // default sprite's dimensions
-    private BufferedImage bImage;
-    protected int imageWidth, imageHeight; // image dimensions
+    protected int image_w, image_h;    // image dimensions
+    protected BufferedImage bImage;
     
     protected int locX, locY, dx, dy;
-    protected int pWidth, pHeight;  // panel's dimensions
-    public static final int win_width = 1050;
-	public static final int win_height = 800;
+
+	
     public Sprite(int x, int y, int dx, int dy, BufferedImage img) 
     {
         locX = x;
         locY = y;
         this.dx = dx;
         this.dy = dy;
-        pWidth = win_width;
-        pHeight = win_height;
-        bImage = img;
-        if(bImage != null)
-        {
-            imageWidth = bImage.getWidth(null);
-            imageHeight = bImage.getHeight(null);
-        }
-        else
-            setImageDimensions();     
+        bImage = img;    
     }
    
     
@@ -59,7 +50,7 @@ public class Sprite {
 
 	public Rectangle getBoundingBox()
     {
-        return new Rectangle(getLocX(), getLocY(), imageWidth, imageHeight);
+        return new Rectangle(getLocX(), getLocY(), image_w, image_h);
     }
 
     public int getLocX() {
@@ -78,14 +69,7 @@ public class Sprite {
         return dy;
     }
     
-    public int getImageWidth() { 
-        return imageWidth;
-    }
-    
-    public int getImageHeight()
-    {
-        return imageHeight;
-    }
+
     public void updateSprite()
     {
         locX += dx;
@@ -94,8 +78,8 @@ public class Sprite {
     
     public void drawSprite(Graphics g)
     {
-        g.fillRect(locX, locY, imageWidth, imageHeight);
-    	g.drawImage(bImage, locX, locY, null);
+        //g.fillRect(locX, locY, image_w, image_h);
+    	g.drawImage(bImage, locX, locY, image_w, image_h, null);
     }
 }
 

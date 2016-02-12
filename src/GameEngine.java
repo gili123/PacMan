@@ -50,7 +50,11 @@ public class GameEngine {
 	}
 
 
-
+	public void update(){
+		
+		for(int i = 0; i < enemies.size(); i++)
+			enemies.get(i).move();
+	}
 
 	public void isEatingDotsFood(){
 		Rectangle pacmanBox = pacman.getBoundingBox();

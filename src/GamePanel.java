@@ -14,7 +14,10 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private Pacman pacman;
 	private Map m;
 	private GameEngine game;
+	
+	
 	public GamePanel() {
+		
 		game=new GameEngine(1);
 		m=game.getMap();
 		pacman=game.getPacman();
@@ -67,7 +70,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	private void gameUpdate() {
 
-
+		game.update();
 	}
 
 	@Override

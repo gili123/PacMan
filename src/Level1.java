@@ -4,15 +4,17 @@ import java.awt.Point;
 public class Level1 extends Map {
 
 	public Level1(){
-		
+
+		super(100, 7, 5);
+
 		Vertex v11 = new Vertex(100, 30);
 		Vertex v12 = new Vertex(250, 30);
 		Vertex v13 = new Vertex(400, 30);
-		
+
 		Vertex v14 = new Vertex(500, 30);
 		Vertex v15 = new Vertex(650, 30);
 		Vertex v16 = new Vertex(800, 30);
-		
+
 		Vertex v21 = new Vertex(100, 110);
 		Vertex v22 = new Vertex(250, 110);
 		Vertex v23 = new Vertex(315, 110);
@@ -21,7 +23,7 @@ public class Level1 extends Map {
 		Vertex v26 = new Vertex(575, 110);
 		Vertex v27 = new Vertex(650, 110);
 		Vertex v28 = new Vertex(800, 110);
-		
+
 		Vertex v31 = new Vertex(100, 170);
 		Vertex v32 = new Vertex(250, 170);
 		Vertex v33 = new Vertex(315, 170);
@@ -30,20 +32,20 @@ public class Level1 extends Map {
 		Vertex v36 = new Vertex(575, 170);
 		Vertex v37 = new Vertex(650, 170);
 		Vertex v38 = new Vertex(800, 170);
-		
+
 		Vertex v41 = new Vertex(315, 230);
 		Vertex v42 = new Vertex(400, 230);
 		Vertex v43 = new Vertex(500, 230);
 		Vertex v44 = new Vertex(575, 230);
-		
+
 		Vertex v51 = new Vertex(250, 300);
 		Vertex v52 = new Vertex(315, 300);
 		Vertex v53 = new Vertex(575, 300);
 		Vertex v54 = new Vertex(650, 300);
-		
+
 		Vertex v61 = new Vertex(315, 370);
 		Vertex v62 = new Vertex(575, 370);
-		
+
 		Vertex v71 = new Vertex(100, 430);
 		Vertex v72 = new Vertex(250, 430);
 		Vertex v73 = new Vertex(315, 430);
@@ -52,7 +54,7 @@ public class Level1 extends Map {
 		Vertex v76 = new Vertex(575, 430);
 		Vertex v77 = new Vertex(650, 430);
 		Vertex v78 = new Vertex(800, 430);
-		
+
 		Vertex v81 = new Vertex(100, 490);
 		Vertex v82 = new Vertex(175, 490);
 		Vertex v83 = new Vertex(250, 490);
@@ -63,7 +65,7 @@ public class Level1 extends Map {
 		Vertex v88 = new Vertex(650, 490);
 		Vertex v89 = new Vertex(725, 490);
 		Vertex v810 = new Vertex(800, 490);
-		
+
 		Vertex v91 = new Vertex(100, 550);
 		Vertex v92 = new Vertex(175, 550);
 		Vertex v93 = new Vertex(250, 550);
@@ -72,7 +74,7 @@ public class Level1 extends Map {
 		Vertex v96 = new Vertex(650, 550);
 		Vertex v97 = new Vertex(725, 550);
 		Vertex v98 = new Vertex(800, 550);
-		
+
 		v11.addNeighbor(v12, 0);
 		v12.addNeighbor(v11, 2);
 		v12.addNeighbor(v13, 0);
@@ -81,7 +83,7 @@ public class Level1 extends Map {
 		v15.addNeighbor(v14, 2);
 		v15.addNeighbor(v16, 0);
 		v16.addNeighbor(v15, 2);
-		
+
 		v11.addNeighbor(v21, 3);
 		v21.addNeighbor(v11, 1);
 		v12.addNeighbor(v22, 3);
@@ -176,7 +178,7 @@ public class Level1 extends Map {
 		v77.addNeighbor(v76, 2);
 		v77.addNeighbor(v78, 0);
 		v78.addNeighbor(v77, 2);
-		
+
 		v81.addNeighbor(v71, 1);
 		v71.addNeighbor(v81, 3);
 		v83.addNeighbor(v72, 1);
@@ -189,7 +191,7 @@ public class Level1 extends Map {
 		v77.addNeighbor(v88, 3);
 		v810.addNeighbor(v78, 1);
 		v78.addNeighbor(v810, 3);
-		
+
 		v81.addNeighbor(v82, 0);
 		v82.addNeighbor(v81, 2);
 		v83.addNeighbor(v84, 0);
@@ -204,7 +206,7 @@ public class Level1 extends Map {
 		v88.addNeighbor(v87, 2);
 		v89.addNeighbor(v810, 0);
 		v810.addNeighbor(v89, 2);
-		
+
 		v92.addNeighbor(v82, 1);
 		v82.addNeighbor(v92, 3);
 		v93.addNeighbor(v83, 1);
@@ -232,14 +234,14 @@ public class Level1 extends Map {
 		v97.addNeighbor(v98, 0);
 		v98.addNeighbor(v97, 2);
 
-		
+
 		graph.add(v11);
 		graph.add(v12);
 		graph.add(v13);
 		graph.add(v14);
 		graph.add(v15);
 		graph.add(v16);
-		
+
 		graph.add(v21);
 		graph.add(v22);
 		graph.add(v23);
@@ -248,7 +250,7 @@ public class Level1 extends Map {
 		graph.add(v26);
 		graph.add(v27);
 		graph.add(v28);
-		
+
 		graph.add(v31);
 		graph.add(v32);
 		graph.add(v33);
@@ -257,20 +259,20 @@ public class Level1 extends Map {
 		graph.add(v36);
 		graph.add(v37);
 		graph.add(v38);
-		
+
 		graph.add(v41);
 		graph.add(v42);
 		graph.add(v43);
 		graph.add(v44);
-		
+
 		graph.add(v51);
 		graph.add(v52);
 		graph.add(v53);
 		graph.add(v54);
-		
+
 		graph.add(v61);
 		graph.add(v62);
-		
+
 		graph.add(v71);
 		graph.add(v72);
 		graph.add(v73);
@@ -279,7 +281,7 @@ public class Level1 extends Map {
 		graph.add(v76);
 		graph.add(v77);
 		graph.add(v78);
-		
+
 		graph.add(v81);
 		graph.add(v82);
 		graph.add(v83);
@@ -290,7 +292,7 @@ public class Level1 extends Map {
 		graph.add(v88);
 		graph.add(v89);
 		graph.add(v810);
-		
+
 		graph.add(v91);
 		graph.add(v92);
 		graph.add(v93);
@@ -299,10 +301,15 @@ public class Level1 extends Map {
 		graph.add(v96);
 		graph.add(v97);
 		graph.add(v98);
-		
+
 		setStartPoint();
+
+		for(int i = 0; i < this.numOfEnemies; i++){
+			Enemy newEnemy = new Enemy((400 + Vertex.width/2) - (Enemy.width/2), (230 + Vertex.height/2) - (Enemy.height/2), graph, v42);
+			enemies.add(newEnemy);
+		}
 	}
-	
+
 	private void setStartPoint(){
 
 		startPoint = new Point(graph.get(0).getX() + Vertex.width/2 - Pacman.width/2 , graph.get(0).getY() + Vertex.height/2 - Pacman.width/2);

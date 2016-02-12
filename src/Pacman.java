@@ -41,7 +41,8 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 
 		if(correntVer != null){
 			if(correntVer.getDir(0) != -1)
-				direction = 0;
+				if(locX > correntVer.getX() && locX + Pacman.width < correntVer.getX() + Vertex.width && locY > correntVer.getY() && locY + Pacman.height < correntVer.getY() + Vertex.height)
+					direction = 0;
 		}
 
 		else if(direction == 2){
@@ -56,7 +57,8 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 
 		if(correntVer != null){
 			if(correntVer.getDir(1) != -1)
-				direction = 1;
+				if(locX > correntVer.getX() && locX + Pacman.width < correntVer.getX() + Vertex.width && locY > correntVer.getY() && locY + Pacman.height < correntVer.getY() + Vertex.height)
+					direction = 1;
 		}
 
 		else if(direction == 3){
@@ -71,7 +73,8 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 
 		if(correntVer != null){
 			if(correntVer.getDir(2) != -1)
-				direction = 2;
+				if(locX > correntVer.getX() && locX + Pacman.width < correntVer.getX() + Vertex.width && locY > correntVer.getY() && locY + Pacman.height < correntVer.getY() + Vertex.height)
+					direction = 2;
 		}
 
 		else if(direction == 0){
@@ -86,7 +89,8 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 
 		if(correntVer != null){
 			if(correntVer.getDir(3) != -1)
-				direction = 3;
+				if(locX > correntVer.getX() && locX + Pacman.width < correntVer.getX() + Vertex.width && locY > correntVer.getY() && locY + Pacman.height < correntVer.getY() + Vertex.height)
+					direction = 3;
 		}
 
 		else if(direction == 1){
@@ -122,17 +126,18 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 	private void move() {
 
 		if(correntVer != null){
-			if(locX<= correntVer.getX() || locX+ Pacman.width >= correntVer.getX() + Vertex.width || locY <= correntVer.getY() || locY + Pacman.height >= correntVer.getY() + Vertex.height){
+			if(locX < correntVer.getX() || locX + Pacman.width > correntVer.getX() + Vertex.width || locY < correntVer.getY() || locY + Pacman.height > correntVer.getY() + Vertex.height){
 				prevVer = correntVer;
 				correntVer = null;
+				nextVer = prevVer.getNeighbor(direction);
 			}
 		}
 
-		if(prevVer != null)
-			nextVer = prevVer.getNeighbor(direction);
+		/*if(prevVer != null)
+			nextVer = prevVer.getNeighbor(direction);*/
 
 		if(nextVer != null){
-			if(locX > nextVer.getX() && locX + Pacman.width < nextVer.getX() + Vertex.width && locY > nextVer.getY() && locY + Pacman.height < nextVer.getY() + Vertex.height){
+			if(locX >= nextVer.getX() && locX + Pacman.width <= nextVer.getX() + Vertex.width && locY >= nextVer.getY() && locY + Pacman.height <= nextVer.getY() + Vertex.height){
 				correntVer = nextVer;
 				nextVer = correntVer.getNeighbor(direction);
 			}
@@ -146,10 +151,10 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 				if(correntVer.getDir(0) != -1)
 					locX += moveSpeed;
 				else if(locX + moveSpeed + Pacman.width < correntVer.getX() + Vertex.width)
-					locX+= moveSpeed;
+					locX += moveSpeed;
 			}
 
-			else
+			else if(nextVer != null)
 				locX += moveSpeed;
 
 			break;
@@ -163,7 +168,7 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 					locY -= moveSpeed;
 			}
 
-			else
+			else if(nextVer != null)
 				locY -= moveSpeed;
 
 			break;
@@ -177,7 +182,7 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 					locX -= moveSpeed;
 			}
 
-			else
+			else if(nextVer != null)
 				locX -= moveSpeed;
 
 			break;
@@ -191,7 +196,7 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 					locY += moveSpeed;
 			}
 
-			else
+			else if(nextVer != null)
 				locY += moveSpeed;
 
 			break;
