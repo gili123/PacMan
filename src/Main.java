@@ -12,7 +12,7 @@ public class Main {
 		frame.setSize(win_width, win_height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		GamePanel panel = new GamePanel();
+		GamePanel panel = new GamePanel(1);
 		frame.add(panel);
 		frame.setVisible(true);
 	}

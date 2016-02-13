@@ -1,9 +1,15 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -14,35 +20,77 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private Pacman pacman;
 	private Map m;
 	private GameEngine game;
-	
-	
-	public GamePanel() {
+	public final static int DOT_FOOD_EVENT=0,SPECIAL_FOOD_EVENT=1,LEVEL_OVER_EVENT=2,ENEMY_EVENT=3;
+	private JLabel lbl;
+	private JButton cntrl_btn;
+	private int level;
+	public GamePanel(int level) {
+		lbl=new JLabel();
+		lbl.setForeground(Color.RED);
+		lbl.setFont (new Font("Courier", Font.BOLD,50));
+		cntrl_btn=new JButton("Start");
+		//adding action listener for button
+		cntrl_btn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				startGame();
+			}
+		});
+		this.add(lbl);
+		this.add(cntrl_btn);
 		
-		game=new GameEngine(1);
-		m=game.getMap();
-		pacman=game.getPacman();
-		setFocusable(true);
-		requestFocusInWindow();
-	
+		
+		
+		
+		
+		this.level=level;
 		running = true;
 		
-		addKeyListener(this);
+		
+		
 	}
 
 	@Override
 	public void run() {
-
+		initiate();
 		while(running){
 
 			gameUpdate();
 			gameRender();
 			paintScreen();
+			gameCourse();
 
 			try {
 				Thread.sleep(20);
 			}
 			catch(InterruptedException e){}
 		}
+	}
+
+
+	private void gameCourse(){
+		int res=game.gameCourse();
+
+		switch(res){
+		case DOT_FOOD_EVENT:
+			lbl.setText("TOTAL SCORE: "+game.getGameScore());
+
+			break;
+		case SPECIAL_FOOD_EVENT:
+			lbl.setText("TOTAL SCORE: "+game.getGameScore());
+			break;
+		case LEVEL_OVER_EVENT:
+			lbl.setText("Level is over!");
+			stopGame();
+			break;
+		case ENEMY_EVENT:
+			lbl.setText("Game Over: YOU DEAD!");
+			stopGame();
+			break;
+		}
+
+		lbl.repaint();
 	}
 
 	private void paintScreen() {
@@ -65,7 +113,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		screeen = new BufferedImage(Main.win_width, Main.win_height, BufferedImage.OPAQUE);
 		g = screeen.createGraphics();
 		game.draw(g);
-		
+
 	}
 
 	private void gameUpdate() {
@@ -81,7 +129,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+
 		switch(e.getKeyCode()){
 
 		case KeyEvent.VK_LEFT:
@@ -121,9 +169,28 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		startGame();    
 	}
 
-	//start the game thread
+	//starts the game thread
 	public void startGame()
 	{
+		
+		running=true;
 		(new Thread(this)).start();
+		
+	}
+	//stops the game thread
+	public void stopGame()
+	{
+		running=false;
+	
+		
+	}
+	private void initiate(){
+		game=new GameEngine(level);
+		m=game.getMap();
+		pacman=game.getPacman();
+		lbl.setText("TOTAL SCORE: "+game.getGameScore());
+		addKeyListener(this);
+		setFocusable(true);
+		requestFocusInWindow();
 	}
 }
