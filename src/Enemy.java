@@ -1,9 +1,7 @@
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Vector;
+
 
 import javax.imageio.ImageIO;
 
@@ -15,21 +13,19 @@ public class Enemy extends Sprite{
 
 	private int direction;
 	private Vertex correntVer, nextVer, prevVer;
-	private Vector<Vertex> graph = new Vector<Vertex>();
 
 
-	public Enemy(int x, int y, Vector<Vertex> g, Vertex cur) {
+	public Enemy(int x, int y, Vertex cur) {
 
-		super(x, y, moveSpeed, moveSpeed, null);
+		super(x, y, moveSpeed, moveSpeed);
 
 		image_w = width;
 		image_h = height;
-		graph = g;
 		correntVer = cur;
 		
-		File file1 = new File(new File("src").getAbsolutePath()+ "//" + img);
+		File file = new File(new File("src").getAbsolutePath()+ "//" + img);
 		try {
-			bImage = ImageIO.read(file1);
+			bImage = ImageIO.read(file);
 			//setting enemies icons
 
 

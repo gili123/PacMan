@@ -1,174 +1,107 @@
+/*
+ * class of the game's map
+ */
+
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
-
 import javax.imageio.ImageIO;
 
 
 public class Map {
 
-	private final int width = 100, height =100;
+	private final int width = 100, height = 100;
+	private final Color color = Color.BLUE;
 	protected Vector<Vertex> graph = new Vector<Vertex>();
 	protected Point startPoint;
-	private int[] x_points, y_points;
 
 
 	protected Vector<Enemy> enemies;
-	private Vector<DotsFood> dFoods;
-	private Vector<SpecialFood> sFoods;
+	protected Vector<DotsFood> dFoods;
+	protected Vector<SpecialFood> sFoods;
 	protected int numOfEnemies,numOfDotsFoods,numOfSpecialFood;
 
 
 
 
-
+	//default constructor
 	public Map(){
 
 	}
 
-	public Map(int numOfDotsFoods,int numOfEnemies,int numOfSpecialFood){
+	//constructor
+	public Map(int numOfEnemies,int numOfSpecialFood){
 		this.numOfEnemies=numOfEnemies;
-		this.numOfDotsFoods=numOfDotsFoods;
 		this.numOfSpecialFood=numOfSpecialFood;
 
 		//enemies
 		enemies = new Vector<Enemy>(this.numOfEnemies);
-
-
-			
-
-
-
-
-
-
-
-
-
+		
+		//dotFoods
+		dFoods=new Vector<DotsFood>(this.numOfDotsFoods);
+		
 		//SpecialFoods
 		sFoods=new Vector<SpecialFood>(this.numOfSpecialFood);
-		//getting the image of an enemy
-		File file2 = new File(new File("src").getAbsolutePath()+ "//food.png");
-		//File file2 = new File(new File(".").getAbsolutePath()+ "//food.png");
-		BufferedImage img2 = null;
-		try {
-			img2 = ImageIO.read(file2);
-			//setting enemies icons
-			for(int i=0;i<this.numOfSpecialFood;i++){
-				sFoods.add(new SpecialFood(0, 0, img2));
-			}	
-
-		} catch (IOException ex) {
-			System.out.println("error loading files");
-		}	
-
-
-
-
-
-
-
-		//dots food
-		dFoods=new Vector<DotsFood>(this.numOfDotsFoods);
-		for(int i=0;i<this.numOfDotsFoods;i++){
-			dFoods.add(new DotsFood(0, 0, img2));
-		}
-
-
-
-
-
+			
 
 	}
 
 
-
-
-
-
-
-
-
-
+	//get width
 	public int getWidth() {
 		return width;
 	}
 
+	//get height
 	public int getHeight() {
 		return height;
 	}
 
-	public int[] getX_points() {
-		return x_points;
-	}
-
-	public int[] getY_points() {
-		return y_points;
-	}
-
+	//get Enemies vector
 	public Vector<Enemy> getEnemies() {
 		return enemies;
 	}
 
+	//get dot Foods vector
 	public Vector<DotsFood> getdFoods() {
 		return dFoods;
 	}
 
+	//gets special Foods vector
 	public Vector<SpecialFood> getsFoods() {
 		return sFoods;
 	}
 
+	//get Number Of Enemies
 	public int getNumOfEnemies() {
 		return numOfEnemies;
 	}
 
+	//get Number Of Dots Foods
 	public int getNumOfDotsFoods() {
 		return numOfDotsFoods;
 	}
 
+	//get Number Of Special Food
 	public int getNumOfSpecialFood() {
 		return numOfSpecialFood;
 	}
 
-	public void setGraph(Vector<Vertex> graph) {
-		this.graph = graph;
-	}
-
-	public void setStartPoint(Point startPoint) {
-		this.startPoint = startPoint;
-	}
-
-	public void setX_points(int[] x_points) {
-		this.x_points = x_points;
-	}
-
-	public void setY_points(int[] y_points) {
-		this.y_points = y_points;
-	}
-
-	public void setEnemies(Vector<Enemy> enemies) {
-		this.enemies = enemies;
-	}
-
-	public void setdFoods(Vector<DotsFood> dFoods) {
-		this.dFoods = dFoods;
-	}
-
-	public void setsFoods(Vector<SpecialFood> sFoods) {
-		this.sFoods = sFoods;
-	}
-
+	//set Number Of Enemies
 	public void setNumOfEnemies(int numOfEnemies) {
 		this.numOfEnemies = numOfEnemies;
 	}
 
+	//set Number Of Dots Foods
 	public void setNumOfDotsFoods(int numOfDotsFoods) {
 		this.numOfDotsFoods = numOfDotsFoods;
 	}
 
+	//set Number Of Special Food
 	public void setNumOfSpecialFood(int numOfSpecialFood) {
 		this.numOfSpecialFood = numOfSpecialFood;
 	}
@@ -180,6 +113,7 @@ public class Map {
 
 		Vertex nei;
 
+		g.setColor(color);
 		for(int i = 0; i < graph.size(); i++){
 
 			Vertex cur = graph.get(i);

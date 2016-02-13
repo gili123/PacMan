@@ -1,20 +1,24 @@
+/*
+ * class of dot foods
+ */
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class DotsFood extends Sprite {
 
-	private final static int width = 10, height = 10;
+	public final static int width = 10, height = 10;
 
 	private Color color;
 
-	public DotsFood(int x, int y,BufferedImage img){
+	//constructor
+	public DotsFood(int x, int y){
 
-		super(x, y, 0, 0, img);
+		super(x, y, 0, 0);
 
 		Random rand = new Random();
 
@@ -24,11 +28,15 @@ public class DotsFood extends Sprite {
 
 		color = new Color(r, l, b);
 	}
+	
+	
 	@Override
 	public Rectangle getBoundingBox()
 	{
 		return new Rectangle(getLocX(), getLocY(), width, height);
 	}
+	
+	//draw food
 	@Override
 	public void drawSprite(Graphics g){
 

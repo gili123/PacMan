@@ -1,3 +1,8 @@
+/*
+ * game interface
+ */
+
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -7,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,7 +28,12 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private JLabel lbl;
 	private JButton cntrl_btn;
 	private int level;
+	
+	
+	//constructor
 	public GamePanel(int level) {
+		
+		
 		lbl=new JLabel();
 		lbl.setForeground(Color.RED);
 		lbl.setFont (new Font("Courier", Font.BOLD,50));
@@ -37,10 +46,11 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 				startGame();
 			}
 		});
-		this.add(lbl);
-		this.add(cntrl_btn);
 		
+		add(lbl);
+		add(cntrl_btn);
 		
+
 		
 		
 		
@@ -93,6 +103,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		lbl.repaint();
 	}
 
+	//paint the buffer on the screen
 	private void paintScreen() {
 
 		Graphics g;
@@ -108,6 +119,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		}
 	}
 
+	//draw all elements
 	private void gameRender() {
 		Graphics g;
 		screeen = new BufferedImage(Main.win_width, Main.win_height, BufferedImage.OPAQUE);
@@ -116,6 +128,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	}
 
+	//update game engine
 	private void gameUpdate() {
 
 		game.update();

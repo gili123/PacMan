@@ -23,13 +23,13 @@ public class Sprite {
     protected int locX, locY, dx, dy;
 
 	
-    public Sprite(int x, int y, int dx, int dy, BufferedImage img) 
+    public Sprite(int x, int y, int dx, int dy) 
     {
         locX = x;
         locY = y;
         this.dx = dx;
         this.dy = dy;
-        bImage = img;    
+       // bImage = img;    
     }
    
     

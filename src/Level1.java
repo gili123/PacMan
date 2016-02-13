@@ -1,16 +1,24 @@
+/*
+ * class of level 1 at the game
+ */
+
 import java.awt.Point;
 
 
 public class Level1 extends Map {
 
+	//constructor
 	public Level1(){
 
-		super(100, 7, 5);
+		super(5, 1);
 
+		numOfDotsFoods = 0;
+
+		/*******************create vertexes***************************/
+		
 		Vertex v11 = new Vertex(100, 30);
 		Vertex v12 = new Vertex(250, 30);
 		Vertex v13 = new Vertex(400, 30);
-
 		Vertex v14 = new Vertex(500, 30);
 		Vertex v15 = new Vertex(650, 30);
 		Vertex v16 = new Vertex(800, 30);
@@ -75,6 +83,8 @@ public class Level1 extends Map {
 		Vertex v97 = new Vertex(725, 550);
 		Vertex v98 = new Vertex(800, 550);
 
+		/***********************************create neighbors******************************/
+		
 		v11.addNeighbor(v12, 0);
 		v12.addNeighbor(v11, 2);
 		v12.addNeighbor(v13, 0);
@@ -234,7 +244,8 @@ public class Level1 extends Map {
 		v97.addNeighbor(v98, 0);
 		v98.addNeighbor(v97, 2);
 
-
+		/******************************add vertexes to the graph*********************************/
+		
 		graph.add(v11);
 		graph.add(v12);
 		graph.add(v13);
@@ -304,15 +315,83 @@ public class Level1 extends Map {
 
 		setStartPoint();
 
+		/*********************************set foods locations*************************/
+		
+		setDotFood(v31, v32, 0);
+		setDotFood(v37, v38, 0);
+		setDotFood(v71, v72, 0);
+		setDotFood(v77, v78, 0);
+		setDotFood(v94, v95, 0);
+		setDotFood(v41, v42, 0);
+		setDotFood(v43, v44, 0);
+		setDotFood(v82, v92, 3);
+		setDotFood(v89, v97, 3);
+		setDotFood(v16, v28, 3);
+		setDotFood(v26, v36, 3);
+		setDotFood(v23, v33, 3);
+		setDotFood(v61, v62, 0);
+		setDotFood(v11, v21, 3);
+
+		SpecialFood sf = new SpecialFood((v98.getX() + Vertex.width/2) - (SpecialFood.width/2), (v98.getY() + Vertex.height/2) - (SpecialFood.height/2));
+		sFoods.add(sf);
+		
+		//add enemies
 		for(int i = 0; i < this.numOfEnemies; i++){
-			Enemy newEnemy = new Enemy((400 + Vertex.width/2) - (Enemy.width/2), (230 + Vertex.height/2) - (Enemy.height/2), graph, v42);
+			Enemy newEnemy = new Enemy((400 + Vertex.width/2) - (Enemy.width/2), (230 + Vertex.height/2) - (Enemy.height/2), v42);
 			enemies.add(newEnemy);
 		}
 	}
 
+	//set pacman start point on the graph
 	private void setStartPoint(){
 
 		startPoint = new Point(graph.get(0).getX() + Vertex.width/2 - Pacman.width/2 , graph.get(0).getY() + Vertex.height/2 - Pacman.width/2);
 
+	}
+
+	//add foods from vertex v1 to vertex v2
+	private void setDotFood(Vertex v1, Vertex v2, int dir){
+
+		DotsFood food;
+
+		if(dir == 0){
+			if(v1.getDir(0) != -1)
+				if(v1.getNeighbor(0).equals(v2)){
+
+					int x_loc = (v1.getX() + Vertex.width/2) - (DotsFood.width/2);
+					int y_loc = (v1.getY() + Vertex.height/2) - (DotsFood.height/2);
+					int end = (v2.getX() + Vertex.width/2) - (DotsFood.width/2);
+
+					while(x_loc <= end){
+
+						food = new DotsFood(x_loc, y_loc);
+						dFoods.add(food);
+						numOfDotsFoods++;
+
+						x_loc += DotsFood.width * 3;
+					}
+
+				}
+		}
+
+		else if(dir == 3){
+
+			 if(v1.getDir(3) != -1)
+				if(v1.getNeighbor(3).equals(v2)){
+
+					int x_loc = (v1.getX() + Vertex.width/2) - (DotsFood.width/2);
+					int y_loc = (v1.getY() + Vertex.height/2) - (DotsFood.height/2);
+					int end = (v2.getY() + Vertex.height/2) - (DotsFood.height/2);
+
+					while(y_loc <= end){
+
+						food = new DotsFood(x_loc, y_loc);
+						dFoods.add(food);
+						numOfDotsFoods++;
+
+						y_loc += DotsFood.height * 3;
+					}
+				}
+		}
 	}
 }

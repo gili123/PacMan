@@ -13,14 +13,14 @@ public class Pacman extends Sprite implements ActionListener, Runnable {
 
 	public static final int width = 20, height = 20;
 	private final int mouthAngle = 30;
-	private final int moveSpeed = 5;
+	private final int moveSpeed = 3;
 	private Vector<Vertex> graph = new Vector<Vertex>();
 	private Vertex correntVer, nextVer, prevVer;
 	private int mouthState, direction;
 	private Timer timer;
 
 	public Pacman(int x, int y){
-		super(x, y, 0, 0, null);
+		super(x, y, 0, 0);
 
 		mouthState = 0;
 		direction = 0;
