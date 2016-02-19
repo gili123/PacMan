@@ -7,15 +7,16 @@ import java.awt.Point;
 
 public class Level1 extends Map {
 
+	public static final int initialEnemyMoveSpeed=3;
 	//constructor
-	public Level1(){
+	public Level1(int level){
 
 		super(5, 1);
 
 		numOfDotsFoods = 0;
 
 		/*******************create vertexes***************************/
-		
+
 		Vertex v11 = new Vertex(100, 30);
 		Vertex v12 = new Vertex(250, 30);
 		Vertex v13 = new Vertex(400, 30);
@@ -84,7 +85,7 @@ public class Level1 extends Map {
 		Vertex v98 = new Vertex(800, 550);
 
 		/***********************************create neighbors******************************/
-		
+
 		v11.addNeighbor(v12, 0);
 		v12.addNeighbor(v11, 2);
 		v12.addNeighbor(v13, 0);
@@ -245,7 +246,7 @@ public class Level1 extends Map {
 		v98.addNeighbor(v97, 2);
 
 		/******************************add vertexes to the graph*********************************/
-		
+
 		graph.add(v11);
 		graph.add(v12);
 		graph.add(v13);
@@ -316,7 +317,7 @@ public class Level1 extends Map {
 		setStartPoint();
 
 		/*********************************set foods locations*************************/
-		
+
 		setDotFood(v31, v32, 0);
 		setDotFood(v37, v38, 0);
 		setDotFood(v71, v72, 0);
@@ -334,10 +335,12 @@ public class Level1 extends Map {
 
 		SpecialFood sf = new SpecialFood((v98.getX() + Vertex.width/2) - (SpecialFood.width/2), (v98.getY() + Vertex.height/2) - (SpecialFood.height/2));
 		sFoods.add(sf);
-		
+
 		//add enemies
+		
+		
 		for(int i = 0; i < this.numOfEnemies; i++){
-			Enemy newEnemy = new Enemy((400 + Vertex.width/2) - (Enemy.width/2), (230 + Vertex.height/2) - (Enemy.height/2), v42);
+			Enemy newEnemy = new Enemy((400 + Vertex.width/2) - (Enemy.width/2), (230 + Vertex.height/2) - (Enemy.height/2), v42,initialEnemyMoveSpeed*level);
 			enemies.add(newEnemy);
 		}
 	}
@@ -376,7 +379,7 @@ public class Level1 extends Map {
 
 		else if(dir == 3){
 
-			 if(v1.getDir(3) != -1)
+			if(v1.getDir(3) != -1)
 				if(v1.getNeighbor(3).equals(v2)){
 
 					int x_loc = (v1.getX() + Vertex.width/2) - (DotsFood.width/2);

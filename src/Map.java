@@ -177,19 +177,14 @@ public class Map {
 
 		//drawing foods && enemies
 		//dots food
-		for(DotsFood d: dFoods){
-			d.drawSprite(g);
-		}
-
+		for(int i=0;i<dFoods.size();i++)
+			dFoods.elementAt(i).drawSprite(g);
 		//SpecialFoods
-		for(Enemy e: enemies){
-			e.drawSprite(g);
-		}
-
+		for(int i=0;i<enemies.size();i++)
+			enemies.elementAt(i).drawSprite(g);
 		//enemies
-		for(SpecialFood s: sFoods){
-			s.drawSprite(g);
-		}	
+		for(int i=0;i<sFoods.size();i++)
+			sFoods.elementAt(i).drawSprite(g);
 
 	}
 

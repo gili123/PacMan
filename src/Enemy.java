@@ -9,20 +9,20 @@ public class Enemy extends Sprite{
 
 	public static final int width = 30, height = 30;
 	private final String img = "enemy.png";
-	private static int moveSpeed = 3;
+	private int moveSpeed = 2,moveFacor=1;
 
 	private int direction;
 	private Vertex correntVer, nextVer, prevVer;
 
 
-	public Enemy(int x, int y, Vertex cur) {
+	public Enemy(int x, int y, Vertex cur,int moveSpeed) {
 
 		super(x, y, moveSpeed, moveSpeed);
-
+		this.moveSpeed=moveSpeed;
 		image_w = width;
 		image_h = height;
 		correntVer = cur;
-		
+
 		File file = new File(new File("src").getAbsolutePath()+ "//" + img);
 		try {
 			bImage = ImageIO.read(file);
@@ -123,4 +123,5 @@ public class Enemy extends Sprite{
 		}
 
 	}
+
 }

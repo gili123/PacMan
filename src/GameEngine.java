@@ -3,10 +3,18 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Vector;
+import java.util.concurrent.Semaphore;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 
 public class GameEngine {
 
@@ -22,24 +30,20 @@ public class GameEngine {
 	private int numOfEnemies,numOfDotsFoods,numOfSpecialFood;
 	public final static int DOT_FOOD_EVENT=0,SPECIAL_FOOD_EVENT=1,LEVEL_OVER_EVENT=2,ENEMY_EVENT=3;
 	public final static int DOT_FOOD_POINTS=1,SPECIAL_FOOD_POINTS=5,MAX_DEATHS=3;
-	
+
 	private int gameScore;
-	
 	public GameEngine(int level){
 
 		numOfEatenDotsFood=0;
 		numOfEatenSpecialFood=0;
 		gameScore=0;
 		numOfDeaths=0;
-		
-		
-		
+
+
+
 		this.level=level;
-		switch(level){
-		case 1:
-			this.map=new Level1();
-			break;
-		}
+	
+		this.map=new Level1(level);
 		Point start = map.getStartPoint();
 		pacman=new Pacman(start.x,start.y);
 		pacman.setGraph(map.getGraph());
@@ -54,7 +58,7 @@ public class GameEngine {
 
 
 	public void update(){
-		
+
 		for(int i = 0; i < enemies.size(); i++)
 			enemies.get(i).move();
 	}
@@ -66,14 +70,43 @@ public class GameEngine {
 			if(pacmanBox.intersects(dotBox)){
 				numOfEatenDotsFood++;
 				gameScore+=DOT_FOOD_POINTS;
+				dFoods.remove(d);
+				try {
+					playAudio("pacman_chomp.wav");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return true;
 			}
 		}
 		return false;
 	}
+
+
 	
-	
-	
+
+	public static void playAudio(String audio) throws Exception
+	{
+
+		File audioFile = new File(new File("src").getAbsolutePath()+ "//" + audio);
+
+		AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);		  
+
+		AudioFormat format = audioStream.getFormat();
+
+		DataLine.Info info = new DataLine.Info(Clip.class, format);
+		Clip audioClip = (Clip) AudioSystem.getLine(info);
+
+
+		audioClip.open(audioStream);
+		audioClip.start();
+	}
+
+
+
+
+
 	public boolean isEatingSpecialFood(){
 		Rectangle pacmanBox = pacman.getBoundingBox();
 		for(SpecialFood s:sFoods){
@@ -81,41 +114,66 @@ public class GameEngine {
 			if(pacmanBox.intersects(SpecialFoodBox)){
 				numOfEatenSpecialFood++;
 				gameScore+=SPECIAL_FOOD_POINTS;
+				sFoods.remove(s);
+				try {
+					playAudio("pacman_eatfruit.wav");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	
-	
-	
-	public boolean isKilledByEnemy(){
-		
+
+
+
+
+	public boolean isKilledByEnemy() {
 		Rectangle pacmanBox = pacman.getBoundingBox();
 
-		for(Enemy e:enemies){
-			Rectangle enemyBox = e.getBoundingBox();
+
+		for(int i=0;i<enemies.size();i++){
+			Rectangle enemyBox = enemies.elementAt(i).getBoundingBox();
 			if(pacmanBox.intersects(enemyBox)){
 				numOfDeaths++;
+				enemies.remove(i);
+				try {
+					playAudio("pacman_eatghost.wav");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
-
+		if(numOfDeaths==MAX_DEATHS){
+			try {
+				playAudio("pacman_death.wav");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
 		return numOfDeaths==MAX_DEATHS;
 	}
 
-	
-	
-	
+
+
+
 	public boolean isLevelOver(){
-		return numOfEatenDotsFood==numOfDotsFoods;
+		return numOfEatenDotsFood==9;
 	}
 
 
-	public int gameCourse(){
+	public int gameCourse() {
+
 		int res = -1;
-		if(isLevelOver())
+		if(isLevelOver()){
 			res=LEVEL_OVER_EVENT;
+
+		}
 		else if(isKilledByEnemy())
 			res=ENEMY_EVENT;
 		else if(isEatingDotsFood())
@@ -124,13 +182,14 @@ public class GameEngine {
 			res=SPECIAL_FOOD_EVENT;
 		return res;
 	}
-	
-	
+
+
 	public Pacman getPacman() {
 		return pacman;
 	}
 
-
+	
+	
 	public void draw(Graphics g){
 		pacman.drawSprite(g);
 		map.draw(g);
@@ -162,7 +221,9 @@ public class GameEngine {
 	public int getNumOfEnemies() {
 		return numOfEnemies;
 	}
-
+	public int getNumOfDeaths() {
+		return numOfDeaths;
+	}
 
 
 

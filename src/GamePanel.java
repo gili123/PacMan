@@ -3,6 +3,7 @@
  */
 
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,58 +13,72 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 
 public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	private BufferedImage screeen = null;
-	private boolean running;
+	private boolean running=false;
 	private Pacman pacman;
 	private Map m;
 	private GameEngine game;
-	public final static int DOT_FOOD_EVENT=0,SPECIAL_FOOD_EVENT=1,LEVEL_OVER_EVENT=2,ENEMY_EVENT=3;
-	private JLabel lbl;
+	public final static int DOT_FOOD_EVENT=0,SPECIAL_FOOD_EVENT=1,LEVEL_OVER_EVENT=2,ENEMY_EVENT=3,MAX_DEATHS=3;
+	private JLabel score_lbl,life_lbl,level_lbl;
 	private JButton cntrl_btn;
 	private int level;
-	
-	
+	private JPanel cntrl_pnl;
+	private boolean game_started=false;
 	//constructor
 	public GamePanel(int level) {
-		
-		
-		lbl=new JLabel();
-		lbl.setForeground(Color.RED);
-		lbl.setFont (new Font("Courier", Font.BOLD,50));
-		cntrl_btn=new JButton("Start");
+
+		life_lbl=new JLabel("life: 3");
+		level_lbl=new JLabel("level: "+level);
+		score_lbl=new JLabel();
+		score_lbl.setBackground(Color.RED);
+		score_lbl.setFont (new Font("Courier", Font.BOLD,20));
+		life_lbl.setFont (new Font("Courier", Font.BOLD,20));
+		cntrl_btn=new JButton("Play");
 		//adding action listener for button
 		cntrl_btn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				game_started=true;
 				startGame();
 			}
 		});
-		
-		add(lbl);
-		add(cntrl_btn);
-		
+		cntrl_pnl=new JPanel();
+		cntrl_pnl.add(score_lbl);
+		cntrl_pnl.add(life_lbl);
+		cntrl_pnl.add(level_lbl);
+		cntrl_pnl.add(cntrl_btn);
+		this.setLayout(new BorderLayout());
+		this.add(cntrl_pnl);
 
-		
-		
-		
+
+
+
+
 		this.level=level;
-		running = true;
-		
-		
-		
+
+
+
 	}
 
 	@Override
 	public void run() {
+		gameRender();
+		while(!game_started);
 		initiate();
+
 		while(running){
 
 			gameUpdate();
@@ -71,36 +86,50 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 			paintScreen();
 			gameCourse();
 
+
+
 			try {
 				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			catch(InterruptedException e){}
 		}
+
 	}
 
 
-	private void gameCourse(){
+	private void gameCourse() {
 		int res=game.gameCourse();
 
 		switch(res){
 		case DOT_FOOD_EVENT:
-			lbl.setText("TOTAL SCORE: "+game.getGameScore());
+			score_lbl.setText("TOTAL SCORE: "+game.getGameScore());
 
 			break;
 		case SPECIAL_FOOD_EVENT:
-			lbl.setText("TOTAL SCORE: "+game.getGameScore());
+			score_lbl.setText("TOTAL SCORE: "+game.getGameScore());
 			break;
 		case LEVEL_OVER_EVENT:
-			lbl.setText("Level is over!");
 			stopGame();
+			level++;
+			initiate();		
+			level_lbl.setText("level: "+level);
+			startGame();
 			break;
 		case ENEMY_EVENT:
-			lbl.setText("Game Over: YOU DEAD!");
+			score_lbl.setText("Game Over: YOU DEAD!");
+			level=1;
+			level_lbl.setText("level: "+level);
+			life_lbl.setText("life: "+(MAX_DEATHS-game.getNumOfDeaths()));
+			game_started=false;
 			stopGame();
 			break;
 		}
 
-		lbl.repaint();
+		score_lbl.repaint();
+		life_lbl.repaint();
+		level_lbl.repaint();
 	}
 
 	//paint the buffer on the screen
@@ -121,10 +150,30 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	//draw all elements
 	private void gameRender() {
-		Graphics g;
+		System.out.println("error loading files");
+		Graphics g = null;
+			
 		screeen = new BufferedImage(Main.win_width, Main.win_height, BufferedImage.OPAQUE);
 		g = screeen.createGraphics();
+		if(game_started){
 		game.draw(g);
+		}
+		else{
+			try {
+				GameEngine.playAudio("pacman_beginning.wav");
+				File frontLayer_file = new File(new File("src").getAbsolutePath()+ "//logo.png");
+				BufferedImage img = null;
+				try {
+					img = ImageIO.read(frontLayer_file);
+				} catch (IOException ex) {
+					System.out.println("error loading files");
+				}	
+				g.drawImage(img, 0, 0, null);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 
@@ -132,6 +181,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private void gameUpdate() {
 
 		game.update();
+		life_lbl.setText("life: "+(MAX_DEATHS-game.getNumOfDeaths()));
 	}
 
 	@Override
@@ -178,32 +228,40 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	// only start the animation once the JPanel has been added to the JFrame
 	public void addNotify()
 	{ 
+
 		super.addNotify(); 
-		startGame();    
+		startGame(); 
+
+
 	}
 
 	//starts the game thread
 	public void startGame()
 	{
-		
+
 		running=true;
 		(new Thread(this)).start();
-		
+
+
 	}
 	//stops the game thread
 	public void stopGame()
 	{
 		running=false;
-	
-		
+
+
 	}
 	private void initiate(){
-		game=new GameEngine(level);
-		m=game.getMap();
-		pacman=game.getPacman();
-		lbl.setText("TOTAL SCORE: "+game.getGameScore());
-		addKeyListener(this);
-		setFocusable(true);
-		requestFocusInWindow();
+		
+			game=new GameEngine(level);
+			m=game.getMap();
+			pacman=game.getPacman();
+			score_lbl.setText("TOTAL SCORE: "+game.getGameScore());
+			life_lbl.setText("life: 3");
+			addKeyListener(this);
+			setFocusable(true);
+			requestFocusInWindow();
+		
+
 	}
 }
