@@ -15,7 +15,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
-
+//this class deals with the performance of the game
 public class GameEngine {
 
 	private Pacman pacman;
@@ -57,20 +57,24 @@ public class GameEngine {
 	}
 
 
+	
+	//moves the enemies
 	public void update(){
 
 		for(int i = 0; i < enemies.size(); i++)
 			enemies.get(i).move();
 	}
 
+	
+	//this method check if pacman ate dot food
 	public boolean isEatingDotsFood(){
 		Rectangle pacmanBox = pacman.getBoundingBox();
-		for(DotsFood d:dFoods){
-			Rectangle dotBox = d.getBoundingBox();
+		for(int i=0;i<dFoods.size();i++){
+			Rectangle dotBox = dFoods.elementAt(i).getBoundingBox();
 			if(pacmanBox.intersects(dotBox)){
 				numOfEatenDotsFood++;
 				gameScore+=DOT_FOOD_POINTS;
-				dFoods.remove(d);
+				dFoods.removeElementAt(i);
 				try {
 					playAudio("pacman_chomp.wav");
 				} catch (Exception e) {
@@ -85,7 +89,7 @@ public class GameEngine {
 
 
 	
-
+	//this method play a sound file
 	public static void playAudio(String audio) throws Exception
 	{
 
@@ -106,7 +110,7 @@ public class GameEngine {
 
 
 
-
+	//this method check if pacman ate special  food
 	public boolean isEatingSpecialFood(){
 		Rectangle pacmanBox = pacman.getBoundingBox();
 		for(SpecialFood s:sFoods){
@@ -129,7 +133,7 @@ public class GameEngine {
 
 
 
-
+	//this method check if pacman was killed by an ememy
 	public boolean isKilledByEnemy() {
 		Rectangle pacmanBox = pacman.getBoundingBox();
 
@@ -162,11 +166,14 @@ public class GameEngine {
 
 
 
+	//this method checks if level is over
 	public boolean isLevelOver(){
-		return numOfEatenDotsFood==9;
+		return numOfEatenDotsFood==6;
 	}
 
 
+	
+	//this method return enumerator indicating an event
 	public int gameCourse() {
 
 		int res = -1;
@@ -184,6 +191,10 @@ public class GameEngine {
 	}
 
 
+	
+	
+	
+	//getters and setters
 	public Pacman getPacman() {
 		return pacman;
 	}

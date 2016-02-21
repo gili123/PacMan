@@ -4,7 +4,7 @@ import java.util.Random;
 
 
 import javax.imageio.ImageIO;
-
+//this class represents an enemy ghost.
 public class Enemy extends Sprite{
 
 	public static final int width = 30, height = 30;

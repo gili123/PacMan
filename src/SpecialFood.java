@@ -22,6 +22,7 @@ public class SpecialFood extends Sprite {
 		image_h = height;
 		
 		File file = new File(new File("src").getAbsolutePath()+ "//" + img);
+		
 
 		try {
 			bImage = ImageIO.read(file);

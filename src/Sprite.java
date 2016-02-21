@@ -5,15 +5,6 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Shay Tavor
- */
 public class Sprite {
 	 
     private static final int SIZE = 20; // default sprite's dimensions

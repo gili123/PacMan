@@ -32,34 +32,56 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private GameEngine game;
 	public final static int DOT_FOOD_EVENT=0,SPECIAL_FOOD_EVENT=1,LEVEL_OVER_EVENT=2,ENEMY_EVENT=3,MAX_DEATHS=3;
 	private JLabel score_lbl,life_lbl,level_lbl;
-	private JButton cntrl_btn;
+	private JButton start_btn,stop_btn;
 	private int level;
 	private JPanel cntrl_pnl;
 	private boolean game_started=false;
+	
+	
+	
+	
 	//constructor
-	public GamePanel(int level) {
-
+	public GamePanel(int level_game) {
+		this.level=level_game;
 		life_lbl=new JLabel("life: 3");
-		level_lbl=new JLabel("level: "+level);
+		level_lbl=new JLabel("level: "+this.level);
 		score_lbl=new JLabel();
 		score_lbl.setBackground(Color.RED);
 		score_lbl.setFont (new Font("Courier", Font.BOLD,20));
 		life_lbl.setFont (new Font("Courier", Font.BOLD,20));
-		cntrl_btn=new JButton("Play");
+		level_lbl.setFont (new Font("Courier", Font.BOLD,20));
+		start_btn=new JButton("Play");
+		stop_btn=new JButton("Stop");
 		//adding action listener for button
-		cntrl_btn.addActionListener(new ActionListener()
+		start_btn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				if(!game_started)
+					running=true;
+				else
+					startGame();
 				game_started=true;
-				startGame();
+				
+				
+			}
+		});
+		stop_btn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				stopGame();
+				level=1;
+				level_lbl.setText("level: "+level);
+				
 			}
 		});
 		cntrl_pnl=new JPanel();
 		cntrl_pnl.add(score_lbl);
 		cntrl_pnl.add(life_lbl);
 		cntrl_pnl.add(level_lbl);
-		cntrl_pnl.add(cntrl_btn);
+		cntrl_pnl.add(start_btn);
+		cntrl_pnl.add(stop_btn);
 		this.setLayout(new BorderLayout());
 		this.add(cntrl_pnl);
 
@@ -67,7 +89,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 
 
-		this.level=level;
+		
 
 
 
@@ -75,8 +97,21 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	@Override
 	public void run() {
-		gameRender();
-		while(!game_started);
+		System.out.println(level+"");
+
+		if(!game_started){
+			try {
+				GameEngine.playAudio("pacman_beginning.wav");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+			
+		while(!game_started){
+			paintMenu();
+		}
 		initiate();
 
 		while(running){
@@ -85,7 +120,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 			gameRender();
 			paintScreen();
 			gameCourse();
-
+			gameCourse();
 
 
 			try {
@@ -99,6 +134,30 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	}
 
 
+	
+	//this method paints the menu of the game
+	private void paintMenu() {
+		Graphics g;
+		g=getGraphics();
+		try {
+			File frontLayer_file = new File(new File("src").getAbsolutePath()+ "//logo.png");
+			try {
+				BufferedImage img=null;
+				img = ImageIO.read(frontLayer_file);
+				g.drawImage(img, 0, 20, null);
+			} catch (IOException ex) {
+				System.out.println("error loading files");
+			}	
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+	}
+	
+	//this method deals with events related to the game.
 	private void gameCourse() {
 		int res=game.gameCourse();
 
@@ -130,8 +189,10 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		score_lbl.repaint();
 		life_lbl.repaint();
 		level_lbl.repaint();
+		stop_btn.repaint();
 	}
 
+	
 	//paint the buffer on the screen
 	private void paintScreen() {
 
@@ -148,32 +209,15 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		}
 	}
 
+	
 	//draw all elements
 	private void gameRender() {
-		System.out.println("error loading files");
 		Graphics g = null;
-			
 		screeen = new BufferedImage(Main.win_width, Main.win_height, BufferedImage.OPAQUE);
 		g = screeen.createGraphics();
-		if(game_started){
 		game.draw(g);
-		}
-		else{
-			try {
-				GameEngine.playAudio("pacman_beginning.wav");
-				File frontLayer_file = new File(new File("src").getAbsolutePath()+ "//logo.png");
-				BufferedImage img = null;
-				try {
-					img = ImageIO.read(frontLayer_file);
-				} catch (IOException ex) {
-					System.out.println("error loading files");
-				}	
-				g.drawImage(img, 0, 0, null);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+
+
 
 	}
 
@@ -184,10 +228,11 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		life_lbl.setText("life: "+(MAX_DEATHS-game.getNumOfDeaths()));
 	}
 
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g); 
-		gameRender();
+		
 	}
 
 	@Override
@@ -226,12 +271,13 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	}
 
 	// only start the animation once the JPanel has been added to the JFrame
+	
 	public void addNotify()
 	{ 
 
 		super.addNotify(); 
+	
 		startGame(); 
-
 
 	}
 
@@ -241,6 +287,8 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 		running=true;
 		(new Thread(this)).start();
+	
+
 
 
 	}
@@ -251,8 +299,11 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 
 	}
+	
+	//this method initiate all game components.
 	private void initiate(){
 		
+			//System.out.println(level+"");
 			game=new GameEngine(level);
 			m=game.getMap();
 			pacman=game.getPacman();
@@ -261,7 +312,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 			addKeyListener(this);
 			setFocusable(true);
 			requestFocusInWindow();
-		
 
+		
 	}
 }
